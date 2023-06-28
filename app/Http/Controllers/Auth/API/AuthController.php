@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRegistrationRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,29 +47,22 @@ class AuthController extends Controller
            Note:
            Signature: tamzidpeace, 17-06-2021
      ==========================================================*/
-     public function register(Request $request)
-     {
-         try {
-             $request->validate([
-                 'name' => 'required|string',
-                 'email' => 'required|string|email|unique:users,email',
-                 'password' => 'required|min:4|max:4|string',
-             ]);
- 
-             $user = new User([
-                 'name' => $request->name,
-                 'email' => $request->email,
-                 'password' => bcrypt($request->password),
-             ]);
- 
-             $user->save();
-             $response = ['success' => 'true', 'code' => 201, 'message' => 'Registration Completed!', 'data' => $user];
-             return \response()->json($response);
-         } catch (\Exception $e) {
-             $response = ['success' => 'false', 'code' => 400, 'message' => 'an error occurred!', 'error' => $e];
-             return response()->json($response);
-         }
-     }
+    public function register(UserRegistrationRequest $request)
+    {
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+
+            $response = ['success' => 'true', 'code' => 201, 'message' => 'Registration Completed!', 'data' => new UserResource($user)];
+            return \response()->json($response);
+        } catch (\Exception $e) {
+            $response = ['success' => 'false', 'code' => 400, 'message' => $e->getMessage(), 'error' => $e];
+            return response()->json($response);
+        }
+    }
 
 
 
@@ -93,5 +88,4 @@ class AuthController extends Controller
             return response()->json($response);
         }
     }
-
 }
