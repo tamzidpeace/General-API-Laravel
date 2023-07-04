@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['title', 'body', 'comment'];
+
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class, 'blog_authors');
+    }
 }
