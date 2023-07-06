@@ -33,11 +33,13 @@ x-role: {{ role }}
 
 
 ### create blog
-POST {{ host1 }}/blog/create
+POST {{ host1 }}/blog/create2
 content-type: application/json
 Authorization: Bearer {{ token }}
 
 {
-
+    "title" : "abc",
+    "body" : "abc",
+    "comment" : "abc",
 }
 

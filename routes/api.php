@@ -22,4 +22,5 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'blog'], function () {
     Route::post('create', [BlogAuthorController::class, 'createBlog']);
+    Route::post('create2', [BlogAuthorController::class, 'createBlog2']);
 });

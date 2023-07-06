@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogRequest;
 use App\Models\Author;
 use App\Models\Blog;
 use Illuminate\Http\Request;
@@ -21,5 +22,10 @@ class BlogAuthorController extends Controller
 
         $blog->authors()->attach($author->id);
         return 'ok';
+    }
+
+    public function createBlog2(BlogRequest $request) {
+
+        return 123;
     }
 }
